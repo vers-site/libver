@@ -11,7 +11,12 @@ license = "MPL-2.0"
 edition = "2021"
 
 [dependencies]
-diagnostic-quick = "0.2.9"
+itertools = "0.10.5"
+
+[dependencies.diagnostic-quick]
+version = "0.2.9"
+features = ["walkdir"]
+
 
 [dev-dependencies]
 
