@@ -4,13 +4,13 @@ use diagnostic_quick::QResult;
 use crate::CmdShared;
 
 #[derive(Parser, Debug)]
-pub struct CmdClone {
+pub struct CmdNew {
     pub name: Url,
     #[clap(flatten)]
     pub other: CmdShared,
 }
 
-impl CmdClone {
+impl CmdNew {
     pub fn run(&self) -> QResult {
         println!("{:?}", self);
         println!("cloning {}", self.name);

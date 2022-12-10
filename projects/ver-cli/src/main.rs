@@ -1,37 +1,37 @@
-use clap::{Parser, Subcommand};
+use std::ffi::OsString;
+
+use clap::{Args, Parser, Subcommand};
 use diagnostic_quick::QResult;
 
-use self::clone::CmdClone;
+use self::{fork::CmdFork, new::CmdNew};
 
 pub mod utils;
 
-mod clone;
-
+mod fork;
+mod new;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 pub struct App {
     #[clap(subcommand)]
-    pub subcommand: Option<AppBuiltin>,
-}
-
-impl App {
-    pub fn run(&self) -> QResult {
-        match &self.subcommand {
-            Some(AppBuiltin::Clone(cmd)) => cmd.run(),
-            None => Ok(()),
-        }
-    }
+    pub cmds: Option<AppBuiltin>,
 }
 
 #[derive(Subcommand, Debug)]
 pub enum AppBuiltin {
-    Clone(Box<CmdClone>),
+    #[clap(alias = "clone")]
+    Fork(Box<CmdFork>),
+    #[clap(alias = "init")]
+    New(Box<CmdNew>),
+    #[clap(external_subcommand, author, version, about, long_about = None)]
+    External(Vec<OsString>),
 }
 
-
+#[derive(Args, Debug)]
 pub struct CmdShared {
+    #[clap(short, long)]
     pub verbose: bool,
+    #[clap(short, long)]
     pub quiet: bool,
 }
 
